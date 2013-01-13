@@ -33,6 +33,7 @@ import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,8 +73,11 @@ public class Beam extends Activity implements CreateNdefMessageCallback,
     public NdefMessage createNdefMessage(NfcEvent event) {
         Time time = new Time();
         time.setToNow();
-        String text = ("Beam me up!\n\n" +
-                "Beam Time: " + time.format("%H:%M:%S"));
+        EditText messageEditText = (EditText)findViewById(R.id.messageEditText);
+        String text = messageEditText.getText().toString();
+        if(text.length() == 0){
+            text = "No text was put into the message";
+        }
         NdefMessage msg = new NdefMessage(NdefRecord.createMime(
                 "application/com.example.android.beam", text.getBytes())
          /**
